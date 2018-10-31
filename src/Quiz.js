@@ -64,13 +64,16 @@ export default class Quiz extends React.Component {
         <Text style={{ textAlign: "center", fontSize: 18 }}>{question.question}</Text>
         <View>
           {question.answers.map(({ correct, answer }, answerInd) => (
-            <Button
-              title={`${answerInd + 1}) ${answer}`}
+            <View
               key={`ans:${questionInd}:${answerInd}`}
-              onPress={() => this._answerPicked(correct)}
-            >
-              {answerInd + 1}) {answer}
-            </Button>
+              style={{ margin: 5 }}>
+              <Button
+                title={`${answerInd + 1}) ${answer}`}
+                onPress={() => this._answerPicked(correct)}
+              >
+                {answerInd + 1}) {answer}
+              </Button>
+            </View>
           ))}
         </View>
       </View>
