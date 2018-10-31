@@ -1,25 +1,13 @@
-import _ from 'lodash';
 import React from 'react';
 import moment from 'moment';
 import { View, Text, Button, FlatList } from 'react-native';
 
 import Quiz from './Quiz';
+import { shuffleAnswers, unescapeText } from './utils';
 
-const QUESTIONS_AMOUNT = 3;
+const QUESTIONS_AMOUNT = 10;
 const QUIZ_URL = `https://opentdb.com/api.php?amount=${QUESTIONS_AMOUNT}\
 &category=24&difficulty=medium&type=multiple`;
-
-const shuffleAnswers = ({ correct_answer, incorrect_answers, ...question }) => {
-  let answers = incorrect_answers.map(a => ({
-    correct: false,
-    answer: a,
-  }));
-
-  return {
-    ...question,
-    answers: _.shuffle([{ correct: true, answer: correct_answer }, ...answers]),
-  }
-};
 
 
 export default class QuizContainer extends React.Component {
@@ -38,6 +26,7 @@ export default class QuizContainer extends React.Component {
     let { results } = await response.json();
 
     results = results.map(shuffleAnswers);
+    results = results.map(unescapeText);
 
     this.setState({ loading: false, quizes: results });
   }
@@ -86,14 +75,18 @@ export default class QuizContainer extends React.Component {
               Your score: {score}
             </Text>
             <Text style={{ fontSize: 20 }}>
-              Your time:
+              Your time:&nbsp;
               {moment.utc(timeToComplete.asMilliseconds()).format('mm:ss')}
             </Text>
           </View>
         )}
         {!isCompleted && !isStarted && (
           <Text style={{ fontSize: 18, textAlign: 'center' }}>
-            Would you like to take a "Politics Medium 10" quiz?
+            Welcome to
+            <Text style={{ color: '#d5008f' }}>
+              &nbsp;Politics Medium 10
+            </Text>
+            &nbsp;quiz!
           </Text>
         )}
         {!isStarted && (

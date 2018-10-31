@@ -45,10 +45,10 @@ export default class Quiz extends React.Component {
       >
         <Text
           style={{
-            fontSize: 20
+            fontSize: 16
           }}
         >
-          {questionInd + 1}/{questions.length}
+          Question {questionInd + 1} out of {questions.length}
         </Text>
         <Text style={{ textAlign: "center", fontSize: 18 }}>{question.question}</Text>
         <View>
