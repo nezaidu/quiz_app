@@ -3,20 +3,25 @@ import moment from 'moment';
 import { View, Text, Button, FlatList } from 'react-native';
 
 import Quiz from './Quiz';
-import { shuffleAnswers, unescapeText } from './utils';
+import { shuffleAnswers, unescapeText, formatDuration } from './utils';
 
 const QUESTIONS_AMOUNT = 10;
 const QUIZ_URL = `https://opentdb.com/api.php?amount=${QUESTIONS_AMOUNT}\
 &category=24&difficulty=medium&type=multiple`;
 
 
+/**
+Main component of the application. Prepares list of questions for the app,
+renders quiz component, tracks how much time was spent on quiz.
+**/
 export default class QuizContainer extends React.Component {
   state = {
-    startTime: null,
-    score: null,
-    timeToComplete: null,
+    questions: [],
 
+    score: null,
     loading: false,
+    startTime: null,
+    timeToComplete: null,
   };
 
   async componentDidMount() {
@@ -28,7 +33,7 @@ export default class QuizContainer extends React.Component {
     results = results.map(shuffleAnswers);
     results = results.map(unescapeText);
 
-    this.setState({ loading: false, quizes: results });
+    this.setState({ loading: false, questions: results });
   }
 
   _startQuiz = () => {
@@ -46,7 +51,7 @@ export default class QuizContainer extends React.Component {
   render() {
     const {
       score,
-      quizes,
+      questions,
       loading,
       startTime,
       timeToComplete,
@@ -66,17 +71,22 @@ export default class QuizContainer extends React.Component {
         }}
       >
         {isStarted && (
-          <Quiz questions={quizes} onComplete={this._completeQuiz} />
+          <Quiz
+            questions={questions}
+            onComplete={this._completeQuiz}
+          />
         )}
         {isCompleted && !isStarted && (
           <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 18 }}>Thank you!</Text>
+            <Text style={{ fontSize: 18 }}>
+              Thank you!
+            </Text>
             <Text style={{ fontSize: 20, color: '#d5008f' }}>
               Your score: {score}
             </Text>
             <Text style={{ fontSize: 20 }}>
               Your time:&nbsp;
-              {moment.utc(timeToComplete.asMilliseconds()).format('mm:ss')}
+              {formatDuration(timeToComplete, 'mm:ss')}
             </Text>
           </View>
         )}
@@ -92,7 +102,7 @@ export default class QuizContainer extends React.Component {
         {!isStarted && (
           <View style={{ alignItems: 'center' }}>
             <Button
-              title={isCompleted ? "Repeat" : "Start Quiz"}
+              title={isCompleted ? "Play again" : "Start Quiz"}
               disabled={loading}
               onPress={this._startQuiz}
             />

@@ -1,10 +1,21 @@
 import _ from 'lodash';
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import { View, Text, Button, FlatList } from 'react-native';
 
-
+/**
+ * Child component which receives list of questions, allows
+ * to advance through them pressing on the one of answers.
+ * When all of the questions were answered onComplete is fired
+ * with number of right answers.
+ */
 export default class Quiz extends React.Component {
+  static propTypes = {
+    onComplete: PropTypes.func.isRequired,
+    questions: PropTypes.array.isRequired,
+  };
+
   state = {
     questionInd: 0,
     score: 0,
@@ -64,6 +75,5 @@ export default class Quiz extends React.Component {
         </View>
       </View>
     );
-
   }
 }

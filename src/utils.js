@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 
 export const shuffleAnswers = ({ correct_answer, incorrect_answers, ...question }) => {
@@ -11,6 +12,10 @@ export const shuffleAnswers = ({ correct_answer, incorrect_answers, ...question 
     ...question,
     answers: _.shuffle([{ correct: true, answer: correct_answer }, ...answers]),
   }
+};
+
+export const formatDuration = (duration, format) => {
+  return moment.utc(duration.asMilliseconds()).format(format);
 };
 
 export const unescapeText = (question) => {

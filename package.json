@@ -10,7 +10,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "react": "16.6.0-alpha.8af6728",
-    "react-native": "0.57.4",
+    "react-native": "0.57.4"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
