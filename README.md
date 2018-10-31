@@ -21,11 +21,18 @@ Android:
 react-native run-android
 ```
 iOS:
-if you are using **xcode 12** and have problems building application check these issues you should check this issues, react-native doesn't fully support it yet
+```
+react-native run-ios
+```
+
+if you are using **xcode 12** and have problems installing third-party libraries run this:
+```
+node_modules/react-native && scripts/ios-install-third-party.sh && cd third-party && cd glog-0.3.5 && ./configure --host arm-apple-darwin && cd ../../../../
+```
+and then change xcode build system from new one to the legacy one, then try building app again.
+If issues with third-party libraries persist, check these issues carefully:
 https://github.com/facebook/react-native/issues/21168
 https://github.com/facebook/react-native/issues/21274
 https://github.com/facebook/react-native/issues/19839
 
-```
-react-native run-ios
-```
+
